@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guidance</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background-color: #f5f9ff;
+      color: #222;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    /* Navbar */
+    nav {
+      background: #0077cc;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li {
+      margin-right: 20px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: #ffdd57;
+    }
+
+    /* Dark mode */
+    .dark-mode {
+      background: #1a1a1a;
+      color: #e6e6e6;
+    }
+
+    .dark-mode nav {
+      background: #222;
+    }
+
+    /* Toggle button */
+    .toggle-btn {
+      cursor: pointer;
+      border: none;
+      background: none;
+      outline: none;
+      width: 30px;
+      height: 30px;
+    }
+
+    .toggle-btn svg {
+      width: 100%;
+      height: 100%;
+      fill: white;
+      transition: fill 0.3s;
+    }
+
+    .dark-mode .toggle-btn svg {
+      fill: #ffdd57;
+    }
+
+    /* Welcome */
+    .welcome {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .welcome h2 {
+      font-size: 28px;
+      color: #0077cc;
+    }
+
+    /* FAQ style guidance */
+    .faq {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 10px;
+    }
+
+    .faq-item {
+      margin-bottom: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .faq-question {
+      background: #e6f0ff;
+      padding: 14px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      background: white;
+      padding: 0 14px;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 200px;
+      padding: 14px;
+    }
+
+    /* Dark mode FAQ */
+    .dark-mode .faq-question {
+      background: #333;
+      color: #ffdd57;
+    }
+
+    .dark-mode .faq-answer {
+      background: #444;
+      color: #e6e6e6;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <ul>
+      <li><a href="newcat.html">Home</a></li>
+      <li><a href="guide.html">Guidance</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <button class="toggle-btn" id="modeToggle" aria-label="Toggle dark mode">
+      <!-- Sun Icon -->
+      <svg id="sunIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 18a6 6 0 100-12 6 6 0 000 12zm0 4a1 1 0 011 1v1h-2v-1a1 1 0 011-1zm0-22a1 1 0 01-1-1V0h2v1a1 1 0 01-1 1zM4.22 5.64a1 1 0 01-1.42-1.42L4.64 2.36l1.42 1.42-1.84 1.86zm15.56 0l-1.84-1.86 1.42-1.42 1.84 1.86a1 1 0 01-1.42 1.42zM12 22a1 1 0 01-1 1h-1v-2h1a1 1 0 011 1zm0-20a1 1 0 011-1h1v2h-1a1 1 0 01-1-1zM1 12a1 1 0 011-1h1v2H2a1 1 0 01-1-1zm20 0a1 1 0 011-1h1v2h-1a1 1 0 01-1-1z"/>
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Welcome -->
+  <section class="welcome">
+    <h2>Welcome to Guidance</h2>
+    <p>This page will help you understand how to use the system effectively.</p>
+  </section>
+
+  <!-- Guidance (FAQ style) -->
+  <section class="faq">
+    <div class="faq-item">
+      <div class="faq-question">👉 What is this system?</div>
+      <div class="faq-answer">This is a Course Recommendation System designed to help learners explore and choose the right courses across multiple categories.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">👉 How to browse courses?</div>
+      <div class="faq-answer">You can find all available courses on the <b>Home</b> page. Use filters, search, and sorting options to find your perfect course.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">👉 Can I save my favorite courses?</div>
+      <div class="faq-answer">Yes, this system allows you to save courses you like for quick access later.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">👉 How do I contact the developer?</div>
+      <div class="faq-answer">Simply go to the <b>Contact</b> page and reach out anytime for queries, feedback, or support.</div>
+    </div>
+  </section>
+
+  <script>
+    // FAQ toggle
+    document.querySelectorAll('.faq-question').forEach(q => {
+      q.addEventListener('click', () => {
+        q.parentElement.classList.toggle('active');
+      });
+    });
+
+    // Dark mode toggle
+    const toggleBtn = document.getElementById('modeToggle');
+    toggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('theme',
+        document.body.classList.contains('dark-mode') ? 'dark' : 'light'
+      );
+    });
+
+    // Load saved theme
+    if(localStorage.getItem('theme') === 'dark'){
+      document.body.classList.add('dark-mode');
+    }
+  </script>
+</body>
+</html>

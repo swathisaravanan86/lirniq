@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Course Categories</title>
+<style>
+  /* Fonts & Body */
+  body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(135deg, #e0f0ff, #c0dfff);
+    color: #1a2d55;
+    transition: background 0.5s, color 0.5s;
+    overflow-x: hidden;
+  }
+
+  /* Navbar */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background: rgba(255,255,255,0.8);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  nav .nav-links a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #1a3b70;
+    font-weight: 600;
+    transition: color 0.3s;
+  }
+  nav .nav-links a:hover {
+    color: #63a4ff;
+  }
+  /* Toggle button */
+  #modeToggle {
+    background:none; border:none; cursor:pointer; width:30px; height:30px; display:flex; align-items:center; justify-content:center;
+    transition: transform 0.3s;
+  }
+  #modeToggle:hover { transform: scale(1.2); }
+
+  /* Heading */
+  h1 {
+    text-align: center;
+    margin-bottom: 20px; 
+    font-size: 2.5rem;
+    background: linear-gradient(90deg, #3a8dde, #1a5bb8, #63a4ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: textGlow 3s ease-in-out infinite alternate;
+  }
+  @keyframes textGlow {
+    from { text-shadow: 0 0 10px rgba(58, 141, 222, 0.5); }
+    to { text-shadow: 0 0 25px rgba(99, 164, 255, 0.8); }
+  }
+
+  /* Search bar */
+  .search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+  .search-box {
+    width: 60%;
+    max-width: 400px;
+    padding: 12px 20px;
+    border-radius: 30px;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    background: white;
+    box-shadow: 0 4px 10px rgba(58, 141, 222, 0.2);
+    transition: all 0.3s ease;
+  }
+  .search-box:focus {
+    box-shadow: 0 6px 15px rgba(58, 141, 222, 0.4);
+    transform: scale(1.05);
+  }
+
+  /* Floating shapes */
+  .background-shapes {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -1;
+    overflow: hidden;
+  }
+  .shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.3;
+    animation: float 10s infinite ease-in-out;
+  }
+  .shape:nth-child(1) { width: 150px; height: 150px; background: #3a8dde; top: 10%; left: 5%; }
+  .shape:nth-child(2) { width: 200px; height: 200px; background: #1a5bb8; top: 60%; left: 70%; animation-duration: 15s;}
+  .shape:nth-child(3) { width: 100px; height: 100px; background: #63a4ff; top: 80%; left: 20%; animation-duration: 12s;}
+  @keyframes float {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    50% { transform: translateY(-30px) translateX(20px); }
+  }
+
+  /* Container grid */
+  .container {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+  }
+
+  /* Category card */
+  a.category-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    border-radius: 15px;
+    overflow: hidden;
+    background: linear-gradient(145deg, #e6f0ff, #d0e4ff);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  a.category-link:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  }
+
+  /* Image */
+  .category-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    filter: brightness(0.95);
+    transition: filter 0.3s ease;
+  }
+  a.category-link:hover .category-image { filter: brightness(1.1); }
+
+  /* Content */
+  .category-content {
+    padding: 15px;
+    background: rgba(255,255,255,0.8);
+  }
+  .category-title { font-size: 1.4rem; margin-bottom: 8px; color: #1a3b70; font-weight: 600; }
+  .category-description { font-size: 0.95rem; color: #1a2d55; line-height: 1.5; }
+
+  /* Dark mode styles */
+  body.dark-mode {
+    background: linear-gradient(135deg, #1a1a1a, #333);
+    color: #ddd;
+  }
+  body.dark-mode nav { background: rgba(50,50,50,0.8); }
+  body.dark-mode a.category-link { background: linear-gradient(145deg, #2a2a2a, #3a3a3a); }
+  body.dark-mode .category-content { background: rgba(0,0,0,0.6); }
+  body.dark-mode .search-box { background: #333; color: #fff; box-shadow: 0 4px 10px rgba(99,164,255,0.2);}
+  body.dark-mode .category-title, body.dark-mode .category-description { color: #ddd; }
+
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav>
+  <div class="nav-links">
+    <a href="newcat.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="guide.html">Guide</a>
+  </div>
+  <!-- Dark/Light Toggle -->
+  <button id="modeToggle">
+    <svg id="moonIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#1a3b70" width="30px" height="30px">
+      <path d="M21.752 15.002A9 9 0 0112 3a9 9 0 109.752 12.002z"/>
+    </svg>
+    <svg id="sunIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#f1c40f" width="30px" height="30px" style="display:none;">
+      <path d="M12 4.5V2m0 20v-2.5M4.5 12H2m20 0h-2.5M5.636 5.636l-1.768-1.768m16.364 16.364l-1.768-1.768M5.636 18.364l-1.768 1.768m16.364-16.364l-1.768 1.768M12 8a4 4 0 100 8 4 4 0 000-8z"/>
+    </svg>
+  </button>
+</nav>
+
+<h1>Course Categories</h1>
+
+<!-- Search Bar -->
+<div class="search-container">
+  <input type="text" id="search" class="search-box" placeholder=" Search for categories or courses..." />
+</div>
+
+<div class="container" id="categoryContainer">
+    <a href="courses.html?category=Web%20Development" class="category-link">
+      <img class="category-image" src="web.jpg" alt="Web Development" />
+      <div class="category-content">
+        <div class="category-title">Web Development</div>
+        <div class="category-description">
+          Learn to build websites and web applications with HTML, CSS, JavaScript, and modern frameworks.
+        </div>
+      </div>
+    </a>
+
+    <a href="courses.html?category=Data%20Science" class="category-link">
+      <img class="category-image" src="datas.jpg" alt="Data Science" />
+      <div class="category-content">
+        <div class="category-title">Data Science</div>
+        <div class="category-description">
+          Explore data analysis, visualization, and machine learning techniques using Python.
+        </div>
+      </div>
+    </a>
+<a href="courses.html?category=AI" class="category-link">
+      
+      <img class="category-image" src="ai.jpg" alt="Data Science" />
+      <div class="category-content">
+        <div class="category-title">AI</div>
+        <div class="category-description">
+          
+        </div>
+      </div>
+    </a>
+
+
+    <a href="courses.html?category=Communication" class="category-link">
+      <img class="category-image" src="comm.avif" alt="Communication" />
+      <div class="category-content">
+        <div class="category-title">Communication</div>
+        <div class="category-description">
+           Communication is exchanging information effectively through various mediums.
+
+        </div>
+      </div>
+    </a>
+    <a href="courses.html?category=Python" class="category-link">
+      <img class="category-image" src="pyth.jpg" alt="Python" />
+      <div class="category-content">
+        <div class="category-title">Python</div>
+        <div class="category-description">
+          Python is a versatile programming language for development and analysis.
+
+        </div>
+      </div>
+    </a>
+
+ <a href="courses.html?category=Design" class="category-link">
+      <img class="category-image" src="des.jpg" alt="Design" />
+      <div class="category-content">
+        <div class="category-title">Design</div>
+        <div class="category-description">
+Design is creating visually appealing and functional products.
+          
+        </div>
+      </div>
+    </a> 
+    <a href="courses.html?category=Finance" class="category-link">
+      <img class="category-image" src="financee.jpg" alt="Finance" />
+      <div class="category-content">
+        <div class="category-title">Finance</div>
+        <div class="category-description">
+ Finance is managing money, investments, and financial systems.          
+        </div>
+      </div>
+    </a>
+    <a href="courses.html?category=Cooking" class="category-link">
+      <img class="category-image" src="cooking.jpg" alt="Cooking"/>
+      <div class="category-content">
+        <div class="category-title">Cooking</div>
+        <div class="category-description">
+Cooking is preparing delicious meals with creativity and skill.
+
+        </div>
+      </div>
+    </a>
+     <a href="courses.html?category=Security" class="category-link">
+      <img class="category-image" src="sec.jpg" alt="Security" />
+      <div class="category-content">
+        <div class="category-title">Security</div>
+        <div class="category-description">
+ Security is protecting people, data, and systems from threats.
+          
+        </div>
+      </div>
+    </a>
+     <a href="courses.html?category=Data science" class="category-link">
+      <img class="category-image" src="datas.jpg" alt="Datascience" />
+      <div class="category-content">
+        <div class="category-title">Data science</div>
+        <div class="category-description">
+Data science is extracting insights from data for informed decisions.
+          
+        </div>
+      </div>
+    </a>
+    
+      <a href="courses.html?category=IT" class="category-link">
+      <img class="category-image" src="it.jpg" alt="IT" />
+      <div class="category-content">
+   <div class="category-title">IT</div>
+        <div class="category-description">
+          
+        </div>
+      </div>
+    </a>
+    <a href="courses.html?category=Lifestyle" class="category-link">
+      <img class="category-image" src="life.jpg" alt="Lifestyle" />
+      <div class="category-content">
+   <div class="category-title">Lifestyle</div>
+        <div class="category-description">
+Choices and habits shaping daily living.
+          
+        </div>
+      </div>
+    </a>
+     <a href="courses.html?category=Databases" class="category-link">
+      <img class="category-image" src="datab.jpg" alt="Database" />
+      <div class="category-content">
+   <div class="category-title">Databases</div>
+        <div class="category-description">
+ Organizing and storing data for easy access.
+          
+        </div>
+      </div>
+    </a>
+    <a href="courses.html?category=Fashion" class="category-link">
+      <img class="category-image" src="fashion.jpg" alt="Fashion" />
+      <div class="category-content">
+   <div class="category-title">Fashion</div>
+        <div class="category-description">
+Expressing style through clothing and accessories.
+          
+        </div>
+      </div>
+    </a>
+  <a href="courses.html?category=Productivity" class="category-link">
+      <img class="category-image" src="productivity.jpg" alt="productivity" />
+      <div class="category-content">
+   <div class="category-title">Productivity</div>
+        <div class="category-description">
+Efficiently managing time and tasks effectively.
+          
+        </div>
+      </div>
+    </a>
+        <a href="courses.html?category=Cloud" class="category-link">
+      <img class="category-image" src="cloudc.jpg" alt="Cloud" />
+      <div class="category-content">
+   <div class="category-title">Cloud</div>
+        <div class="category-description">
+Storing and accessing data online securely.
+          
+        </div>
+      </div>
+    </a>
+    <a href="courses.html?category=Programming" class="category-link">
+      <img class="category-image" src="clogo.jpg" alt="C++" />
+      <div class="category-content">
+   <div class="category-title">Programming</div>
+        <div class="category-description">
+Powerful programming language for building applications.
+          
+        </div>
+      </div>
+    </a>
+
+    <a href="courses.html?category=Content Creation" class="category-link">
+      <img class="category-image" src="content.jpg" alt="Content Creation" />
+      <div class="category-content">
+   <div class="category-title">Content Creation</div>
+        <div class="category-description">
+ Producing engaging content for various audiences.
+          
+        </div>
+      </div>
+    </a>
+<a href="courses.html?category=Writing" class="category-link">
+      <img class="category-image" src="write.jpg" alt="Writing" />
+      <div class="category-content">
+   <div class="category-title">Writing</div>
+        <div class="category-description">
+ Creating content through words and storytelling.
+          
+        </div>
+      </div>
+    </a>
+<a href="courses.html?category=Dancing" class="category-link">
+      <img class="category-image" src="dance.jpg" alt="Dancing" />
+      <div class="category-content">
+   <div class="category-title">Dancing</div>
+        <div class="category-description">
+Expressing emotions through movement and rhythm.
+       
+        </div>
+      </div>
+    </a>
+<a href="courses.html?category=Photography" class="category-link">
+      <img class="category-image" src="photog.jpg" alt="Photography" />
+      <div class="category-content">
+   <div class="category-title">Photography</div>
+        <div class="category-description">
+Capturing moments and beauty through images.
+          
+        </div>
+      </div>
+    </a>
+<a href="courses.html?category=Art" class="category-link">
+      <img class="category-image" src="artt.jpg" alt="Art" />
+      <div class="category-content">
+   <div class="category-title">Art</div>
+        <div class="category-description">
+ Creating aesthetic and meaningful works.
+        
+        </div>
+      </div>
+    </a>
+<a href="courses.html?category=Fitness" class="category-link">
+      <img class="category-image" src="fit.jpg" alt="Finance" />
+      <div class="category-content">
+   <div class="category-title">Fitness</div>
+        <div class="category-description">
+Maintaining physical health through exercise.
+         
+        </div>
+      </div>
+    </a>
+    <a href="courses.html?category=Career" class="category-link">
+      <img class="category-image" src="career.jpg" alt="Career" />
+      <div class="category-content">
+   <div class="category-title">Career</div>
+        <div class="category-description">
+Professional path and personal development journey.
+          
+        </div>
+      </div>
+    </a>
+     <a href="courses.html?category=Psychology" class="category-link">
+      <img class="category-image" src="psycho.jpg"alt="Psychology" />
+      <div class="category-content">
+   <div class="category-title">Psychology</div>
+        <div class="category-description">
+Studying human behavior and mental processes.
+          
+        </div>
+      </div>
+    </a>
+<a href="courses.html?category=Parenting" class="category-link">
+      <img class="category-image" src="parent.jpg" alt="Parenting" />
+      <div class="category-content">
+   <div class="category-title">Parenting</div>
+        <div class="category-description">
+ Nurturing and guiding children to adulthood.
+      
+        </div>
+      </div>
+    </a><a href="courses.html?category=Soft Skills" class="category-link">
+      <img class="category-image" src="softskills.jpg" alt="softskills" />
+      <div class="category-content">
+   <div class="category-title">Soft Skills</div>
+        <div class="category-description">
+ Personal attributes enhancing interactions and relationships.
+          
+        </div>
+      </div>
+    </a><a href="courses.html?category=Editing" class="category-link">
+      <img class="category-image" src="editingg.jpg" alt="Editing" />
+      <div class="category-content">
+   <div class="category-title">Editing</div>
+        <div class="category-description">
+ Refining content for clarity and quality.
+        
+        </div>
+      </div>
+    </a>
+    <a href="courses.html?category=Language" class="category-link">
+      <img class="category-image" src="lang.jpg" alt="Language" />
+      <div class="category-content">
+   <div class="category-title">Language</div>
+        <div class="category-description">
+ Language is a system of communication through words and symbols.
+        
+        </div>
+      </div>
+    </a>
+    <a href="courses.html?category=Business" class="category-link">
+      <img class="category-image" src="buss.jpg" alt="Business" />
+      <div class="category-content">
+   <div class="category-title">Business</div>
+        <div class="category-description">
+ Business is commercial activities and transactions.
+          
+        </div>
+      </div>
+    </a><a href="courses.html?category=Personal Development" class="category-link">
+      <img class="category-image" src="pers.jpg" alt="personal Development" />
+      <div class="category-content">
+   <div class="category-title">Personal Development</div>
+        <div class="category-description">
+Personal development is improving oneself through learning and growth.
+         
+        </div>
+      </div>
+    </a>
+    <a href="courses.html?category=Music" class="category-link">
+      <img class="category-image" src="mus.jpg" alt="Music" />
+      <div class="category-content">
+   <div class="category-title">Music</div>
+        <div class="category-description">
+Music is expressing emotions through sound and rhythm.
+          
+        </div>
+      </div>
+    </a>
+    <a href="courses.html?category=Humanities" class="category-link">
+      <img class="category-image" src="human.jpg" alt="Humanities" />
+      <div class="category-content">
+   <div class="category-title">Humanities</div>
+        <div class="category-description">
+ Humanity is showing compassion and kindness to others.
+        
+        </div>
+      </div>
+    </a>
+    <a href="courses.html?category=Health" class="category-link">
+      <img class="category-image" src="health.jpg" alt="Health" />
+      <div class="category-content">
+   <div class="category-title">Health</div>
+        <div class="category-description">
+Health is maintaining physical and mental well-being.
+         
+        </div>
+      </div>
+    </a>
+    <a href="courses.html?category=Acting" class="category-link">
+      <img class="category-image" src="acting.jpg" alt="Acting" />
+      <div class="category-content">
+   <div class="category-title">Acting</div>
+        <div class="category-description">
+        acting is Portraying characters through performance and skill.
+
+        </div>
+      </div>
+    </a>
+     <a href="courses.html?category=Agriculture" class="category-link">
+      <img class="category-image" src="agri.jpg" alt="Agriculture" />
+      <div class="category-content">
+   <div class="category-title">Agriculture</div>
+        <div class="category-description">
+       Agriculture cultivates crops, raises livestock for human needs.
+        </div>
+      </div>
+    </a>
+    <a href="courses.html?category=Sports" class="category-link">
+      <img class="category-image" src="sports.jpg" alt="sports" />
+      <div class="category-content">
+   <div class="category-title">Sports</div>
+        <div class="category-description">
+          sports are physical activities promoting health,teamwork.
+        </div>
+      </div>
+    </a>
+    <a href="courses.html?category=Architecture" class="category-link">
+      <img class="category-image" src="archi.jpg" alt="Agriculture" />
+      <div class="category-content">
+   <div class="category-title">Architecture</div>
+        <div class="category-description">
+          Architecture is the art and science of designing and constructing buildings, encompassing both the process and the resulting structures, often with a focus on functionality, aesthetics, and the integration of structures within their environment
+        </div>
+      </div>
+    </a>
+     <a href="courses.html?category=Blockchain" class="category-link">
+      <img class="category-image" src="block.jpg" alt="Blockchain" />
+      <div class="category-content">
+   <div class="category-title">Blockchain</div>
+        <div class="category-description">
+          Blockchain is a distributed database, which is shared over a computer network.
+        </div>
+      </div>
+    </a><a href="courses.html?category=Animation  " class="category-link">
+      <img class="category-image" src="animation.jpg" alt="Animation" />
+      <div class="category-content">
+   <div class="category-title">Animation  </div>
+        <div class="category-description">
+        Animation is the process of creating the illusion of movement by displaying a sequence of still images. 
+        </div>
+      </div>
+    </a>
+</div>
+
+<!-- Floating shapes -->
+<div class="background-shapes">
+  <div class="shape"></div>
+  <div class="shape"></div>
+  <div class="shape"></div>
+</div>
+
+<script>
+  // Search functionality
+  const searchInput = document.getElementById('search');
+  const cards = document.querySelectorAll('.category-link');
+  searchInput.addEventListener('input', function() {
+    const query = this.value.toLowerCase();
+    cards.forEach(card => {
+      const title = card.querySelector('.category-title').textContent.toLowerCase();
+      const description = card.querySelector('.category-description').textContent.toLowerCase();
+      card.style.display = (title.includes(query) || description.includes(query)) ? '' : 'none';
+    });
+  });
+
+  // Dark/Light mode toggle
+  const modeToggle = document.getElementById('modeToggle');
+  const moonIcon = document.getElementById('moonIcon');
+  const sunIcon = document.getElementById('sunIcon');
+
+  // Initialize mode
+  if(localStorage.getItem('mode') === 'dark'){
+    document.body.classList.add('dark-mode');
+    moonIcon.style.display = 'none';
+    sunIcon.style.display = 'inline';
+  }
+
+  // Toggle mode
+  modeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    if(document.body.classList.contains('dark-mode')){
+      localStorage.setItem('mode','dark');
+      moonIcon.style.display = 'none';
+      sunIcon.style.display = 'inline';
+    } else {
+      localStorage.setItem('mode','light');
+      moonIcon.style.display = 'inline';
+      sunIcon.style.display = 'none';
+    }
+  });
+</script>
+
+</body>
+</html>

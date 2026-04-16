@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us - Lirniq</title>
+  <style>
+    /* Reset & Base */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #e6f0ff, #f8fbff);
+      color: #333;
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background 0.3s, color 0.3s;
+    }
+    body.dark {
+      background: linear-gradient(135deg, #0d1b2a, #1b263b);
+      color: #f5f5f5;
+    }
+
+    /* Navbar */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      
+      background: #ffffff;
+      padding: 15px 50px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: background 0.3s, color 0.3s;
+    }
+    body.dark nav {
+      background: #14213d;
+    }
+    nav .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #0077ff;
+      transition: color 0.3s;
+    }
+    body.dark nav .logo {
+      color: #4dabf7;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    nav ul li a:hover {
+      color: #0077ff;
+    }
+    body.dark nav ul li a {
+      color: #f5f5f5;
+    }
+    body.dark nav ul li a:hover {
+      color: #ffdd57;
+    }
+
+    /* Toggle Button */
+    .toggle-theme {
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 28px;
+      height: 28px;
+      fill: #333;
+      transition: transform 0.3s, fill 0.3s;
+    }
+    body.dark .toggle-theme {
+      fill: #fff;
+    }
+    .toggle-theme:hover {
+      transform: rotate(20deg);
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 80px 20px;
+      background: linear-gradient(to right, #0077ff, #3399ff);
+      color: #fff;
+    }
+    body.dark .hero {
+      background: linear-gradient(to right, #14213d, #1d3557);
+    }
+    .hero h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      animation: fadeInDown 1.5s ease;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: auto;
+      animation: fadeInUp 1.5s ease;
+    }
+
+    /* About Content */
+    .about {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      padding: 60px 10%;
+      align-items: center;
+    }
+    .about img {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    .about img:hover { transform: scale(1.05); }
+    .about-text { animation: fadeIn 2s ease; }
+    .about-text h3 {
+      font-size: 2rem;
+      margin-bottom: 15px;
+      color: #0077ff;
+    }
+    body.dark .about-text h3 { color: #4dabf7; }
+    .about-text p { margin-bottom: 10px; color: #555; }
+    body.dark .about-text p { color: #ddd; }
+
+    /* Mission & Values */
+    .mission {
+      background: #f0f7ff;
+      padding: 60px 10%;
+      text-align: center;
+    }
+    body.dark .mission { background: #1b263b; }
+    .mission h3 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #0077ff;
+    }
+    body.dark .mission h3 { color: #4dabf7; }
+    .mission p {
+      max-width: 800px;
+      margin: auto;
+      font-size: 1.1rem;
+      color: #444;
+    }
+    body.dark .mission p { color: #ccc; }
+
+    /* Footer */
+    footer {
+      background: #0077ff;
+      color: #fff;
+      text-align: center;
+      padding: 15px;
+      margin-top: 50px;
+      transition: background 0.3s;
+    }
+    body.dark footer { background: #14213d; }
+
+    /* Animations */
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+   
+    <ul>
+      <li><a href="newcat.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="guide.html">Guide</a></li>
+    </ul>
+    <!-- Toggle Theme Button (SVG) -->
+    <button class="toggle-theme" id="themeToggle" aria-label="Toggle dark mode">
+      <svg id="themeIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 3.1a1 1 0 0 1 1 1v1.4a1 1 0 0 1-2 0V4.1a1 1 0 0 1 1-1zm6.9 8.9a1 1 0 0 1 1 1h1.4a1 1 0 0 1 0 2h-1.4a1 1 0 0 1-1-1v-2zm-6.9 7a1 1 0 0 1 1 1v1.4a1 1 0 0 1-2 0V20a1 1 0 0 1 1-1zm-7-7a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3.1a1 1 0 0 1 0-2H5a1 1 0 0 1 1-1zM12 7.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9z"/>
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h2>About Us</h2>
+    <p>We help learners discover the right courses across different platforms like Udemy, Coursera, and more, guiding them to reach their goals effectively.</p>
+  </section>
+
+  <!-- About Section -->
+  <section class="about">
+    <div class="about-text">
+      <h3>Who We Are</h3>
+      <p>Our Lirniq is designed to simplify the way you find the best learning resources online.</p>
+      <p>From coding to cooking, we curate courses that truly add value, whether free or paid.</p>
+      <p>We make learning accessible, personalized, and engaging for everyone.</p>
+    </div>
+    <img src="https://cdn3d.iconscout.com/3d/premium/thumb/online-learning-3d-illustration-download-in-png-blend-fbx-gltf-file-formats--study-education-elearning-student-pack-school-illustrations-3898006.png" alt="Learning Illustration">
+  </section>
+
+  <!-- Mission Section -->
+  <section class="mission">
+    <h3>Our Mission</h3>
+    <p>To empower learners with the right knowledge at the right time.  
+    We believe education should be accessible, engaging, and aligned with your career or personal aspirations.</p>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Lirniq| Designed with ❤️ for learners</p>
+  </footer>
+
+  <!-- JS: Theme Toggle -->
+  <script>
+    const body = document.body;
+    const toggleBtn = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+
+    // Load saved theme
+    if (localStorage.getItem('theme') === 'dark') {
+      body.classList.add('dark');
+      themeIcon.innerHTML = '<path d="M21.64 13a9 9 0 1 1-9-12 9 9 0 0 0 9 12z"/>';
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      body.classList.toggle('dark');
+      if (body.classList.contains('dark')) {
+        themeIcon.innerHTML = '<path d="M21.64 13a9 9 0 1 1-9-12 9 9 0 0 0 9 12z"/>'; // moon
+        localStorage.setItem('theme', 'dark');
+      } else {
+        themeIcon.innerHTML = '<path d="M12 3.1a1 1 0 0 1 1 1v1.4a1 1 0 0 1-2 0V4.1a1 1 0 0 1 1-1zm6.9 8.9a1 1 0 0 1 1 1h1.4a1 1 0 0 1 0 2h-1.4a1 1 0 0 1-1-1v-2zm-6.9 7a1 1 0 0 1 1 1v1.4a1 1 0 0 1-2 0V20a1 1 0 0 1 1-1zm-7-7a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3.1a1 1 0 0 1 0-2H5a1 1 0 0 1 1-1zM12 7.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9z"/>'; // sun
+        localStorage.setItem('theme', 'light');
+      }
+    });
+  </script>
+</body>
+</html>
