@@ -161,7 +161,7 @@ loginForm.onsubmit = function(e){
   const user = getUsers().find(u=>u.email===email);
   if(!user){ loginError.innerText='Please register first!'; loginError.style.display='block'; return; }
   if(user.pwd===pwd){ loginError.style.display='none'; showOverlayMsg('Login successful! Redirecting...'); 
-    setTimeout(()=>{ hideOverlayMsg(); window.location.href='Newcat.html'; },1000);
+    setTimeout(()=>{ hideOverlayMsg(); window.location.href='newcat.html'; },1000);
   } else { loginError.innerText='Invalid credentials!'; loginError.style.display='block'; }
 };
 
