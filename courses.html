@@ -7,54 +7,112 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0; padding: 0;
+    body { 
+      font-family: 'Poppins', sans-serif; 
+      margin: 0;
+      padding: 0;
       background: linear-gradient(135deg, #e0f7fa, #e3f2fd);
       min-height: 100vh;
       position: relative;
       overflow-x: hidden;
     }
-    .background-shapes { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; }
-    .shape { position: absolute; border-radius: 50%; opacity: 0.25; animation: float 12s infinite ease-in-out; }
-    .shape:nth-child(1) { width: 180px; height: 180px; background: #90caf9; top: 15%; left: 5%; }
-    .shape:nth-child(2) { width: 220px; height: 220px; background: #b3e5fc; top: 65%; left: 70%; animation-duration: 16s; }
-    .shape:nth-child(3) { width: 140px; height: 140px; background: #81d4fa; top: 75%; left: 20%; animation-duration: 14s; }
+
+    /* Floating background circles */
+    .background-shapes {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    .shape {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.25;
+      animation: float 12s infinite ease-in-out;
+    }
+    .shape:nth-child(1) {
+      width: 180px; height: 180px;
+      background: #90caf9;
+      top: 15%; left: 5%;
+    }
+    .shape:nth-child(2) {
+      width: 220px; height: 220px;
+      background: #b3e5fc;
+      top: 65%; left: 70%;
+      animation-duration: 16s;
+    }
+    .shape:nth-child(3) {
+      width: 140px; height: 140px;
+      background: #81d4fa;
+      top: 75%; left: 20%;
+      animation-duration: 14s;
+    }
     @keyframes float {
       0%, 100% { transform: translateY(0) translateX(0); }
       50% { transform: translateY(-25px) translateX(15px); }
     }
-    .navbar { background: linear-gradient(to right, #42a5f5, #478ed1); }
-    .navbar-brand, .nav-link { color: white !important; font-weight: 500; }
-    .navbar-brand:hover, .nav-link:hover { text-decoration: underline; }
+
+    /* Navbar */
+    .navbar {
+      background: linear-gradient(to right, #42a5f5, #478ed1);
+    
+    }
+    .navbar-brand, .nav-link {
+      color: white !important;
+      font-weight: 500;
+ 
+    }
+    .navbar-brand:hover, .nav-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Header */
     .header {
-      text-align: center; padding: 30px 20px;
+      text-align: center;
+      padding: 30px 20px;
       background: linear-gradient(to left, #42a5f5, #478ed1);
-      color: white; border-radius: 0 0 25px 25px;
+      color: white;
+      border-radius: 0 0 25px 25px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
-    .course-card {
-      transition: transform 0.3s, box-shadow 0.3s;
-      border: none; border-radius: 15px; overflow: hidden;
+
+    /* Cards */
+    .course-card { 
+      transition: transform 0.3s, box-shadow 0.3s; 
+      border: none;
+      border-radius: 15px;
+      overflow: hidden;
     }
-    .course-card:hover { transform: scale(1.03); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
-    .btn-yellow {
-      background-color: #ffeb3b; color: #000; font-weight: 500;
-      border-radius: 25px; padding: 8px 18px;
+    .course-card:hover { 
+      transform: scale(1.03); 
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); 
     }
-    .btn-yellow:hover { background-color: #fdd835; }
+    .btn-yellow { 
+      background-color: #ffeb3b; 
+      color: #000; 
+      font-weight: 500; 
+      border-radius: 25px; 
+      padding: 8px 18px;
+    }
+    .btn-yellow:hover {
+      background-color: #fdd835;
+    }
   </style>
 </head>
 <body>
 
+<!-- Floating shapes -->
 <div class="background-shapes">
   <div class="shape"></div>
   <div class="shape"></div>
   <div class="shape"></div>
 </div>
 
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg">
   <div class="container">
+    
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
     </button>
@@ -69,214 +127,968 @@
   </div>
 </nav>
 
+<!-- Header -->
 <div class="header">
   <h1 id="categoryTitle"></h1>
   <p>Learn differently - @Lirniq</p>
 </div>
 
+<!-- Courses -->
 <div class="container my-4">
   <div id="courseList" class="row"></div>
 </div>
 
 <script>
   const courses = [
-    // Web Development
-    { title: "Responsive Web Design", category: "Web Development", platform: "freeCodeCamp", link: "https://www.freecodecamp.org/learn/2022/responsive-web-design/", certificate: true, paid: false },
-    { title: "Intro to HTML and CSS", category: "Web Development", platform: "Udacity", link: "https://www.udacity.com/course/intro-to-html-and-css--ud001", certificate: false, paid: false },
-    { title: "JavaScript Essentials", category: "Web Development", platform: "Codecademy", link: "https://www.codecademy.com/learn/introduction-to-javascript", certificate: true, paid: true },
-    { title: "The Complete Web Development Bootcamp", category: "Web Development", platform: "Udemy", link: "https://www.udemy.com/course/the-complete-web-development-bootcamp/", certificate: true, paid: true },
-    { title: "Front-End Development with React", category: "Web Development", platform: "Coursera", link: "https://www.coursera.org/learn/front-end-react", certificate: true, paid: false },
-    { title: "Advanced CSS and Sass", category: "Web Development", platform: "Udemy", link: "https://www.udemy.com/course/advanced-css-and-sass/", certificate: true, paid: true },
-    { title: "Build a Python Web App with Flask", category: "Web Development", platform: "YouTube - freeCodeCamp", link: "https://www.youtube.com/watch?v=Z1RJmh_OqeA", certificate: false, paid: false },
+    {
+      title: "Responsive Web Design",
+      category: "Web Development",
+      platform: "freeCodeCamp",
+      link: "https://www.freecodecamp.org/learn/",
+      certificate: true,
+      paid: false
+    },
+    {
+      title: "Intro to HTML and CSS",
+      category: "Web Development",
+      platform: "Udacity",
+      link: "https://www.udacity.com/course/intro-to-html-and-css--ud304",
+      certificate: true,
+      paid: false
+    },{
+        title: "JavaScript Essentials",
+        category: "Web Development",
+        platform: "Codecademy",
+        link: "https://www.codecademy.com/learn/introduction-to-javascript",
+        certificate: true,
+        paid: true
+      },
+      {
+        title: "The Complete Python Bootcamp",
+        category: "Python",
+        platform: "Udemy",
+        link: "https://www.udemy.com/course/complete-python-bootcamp/",
+        certificate: true,
+        paid: true
+      },
+      {
+        title: "Learn Python - Full Course for Beginners",
+        category: "Python",
+        platform: "YouTube - freeCodeCamp",
+        link: "https://www.youtube.com/watch?v=rfscVS0vtbw",
+        certificate: false,
+        paid: false
+      },
+      {
+        title: "AI For Everyone",
+        category: "AI",
+        platform: "Coursera",
+        link: "https://www.coursera.org/learn/ai-for-everyone",
+        certificate: true,
+        paid: false
+      },
+      {
+        title: "Graphic Design Basics",
+        category: "Design",
+        platform: "Canva Design School",
+        link: "https://www.canva.com/learn/design-courses/",
+        certificate: false,
+        paid: false
+      },
+      {
+        title: "Digital Marketing Basics",
+        category: "Finance",
+        platform: "Google Digital Garage",
+        link: "https://learndigital.withgoogle.com/digitalgarage/course/digital-marketing",
+        certificate: true,
+        paid: false
+      },
+      {
+        title: "Mastering YouTube Cooking",
+        category: "Cooking",
+        platform: "YouTube",
+        link: "https://www.youtube.com/results?search_query=cooking+masterclass",
+        certificate: false,
+        paid: false
+      },
+      {
+        title: "Advanced CSS and Sass",
+        category: "Web Development",
+        platform: "Udemy",
+        link: "https://www.udemy.com/course/advanced-css-and-sass/",
+        certificate: true,
+        paid: true
+      },
+      {
+  title: "Learn Ethical Hacking",
+  platform: "YouTube - NetworkChuck",
+  category: "Security",
+  link: "https://www.youtube.com/watch?v=3Kq1MIfTWCE",
+  certificate: "No",
+  type: "Free"
+},
+{
+  title: "SQL for Data Science",
+  platform: "Coursera",
+  category: "Data science",
+  link: "https://www.coursera.org/learn/sql-for-data-science",
+  certificate: "Yes",
+  type: "Free"
+},{
+  title: "Google IT Support Professional Certificate",
+  platform: "Coursera - Google",
+  category: "IT",
+  link: "https://www.coursera.org/professional-certificates/google-it-support",
+  certificate: "Yes",
+  type: "Free"
+},
+{
+  title: "Digital Marketing by Google",
+  platform: "Google Digital Garage",
+  category: "Marketing",
+  link: "https://learndigital.withgoogle.com/digitalgarage/course/digital-marketing",
+  certificate: "Yes",
+  type: "Free"
+},{
+  title: "Fashion as Design",
+  platform: "Coursera",
+  category: "Design",
+  link: "https://www.coursera.org/learn/fashion-design",
+  certificate: "Yes",
+  type: "Free"
+},
+{
+  title: "Makeup Basics for Beginners",
+  platform: "YouTube - Smitha Deepak",
+  category: "Design",
+  link: "https://www.youtube.com/watch?v=J5ObR3k7sG4",
+  certificate: "No",
+  type: "Free"
+},{
+  title: "Essential Cooking Skills",
+  platform: "Udemy",
+  category: "Cooking",
+  link: "https://www.udemy.com/course/essential-cooking-skills/",
+  certificate: "Yes",
+  type: "Paid"
+},
+{
+  title: "Indian Cooking Course",
+  platform: "YouTube - Hebbars Kitchen",
+  category: "Cooking",
+  link: "https://www.youtube.com/user/HebbarsKitchen",
+  certificate: "No",
+  type: "Free"
+},{
+  title: "Graphic Design Basics",
+  platform: "Canva Design School",
+  category: "Design",
+  link: "https://www.canva.com/designschool/courses/graphic-design-basics/",
+  certificate: "No",
+  type: "Free"
+},
+{
+  title: "UI/UX Design with Adobe XD",
+  platform: "Udemy",
+  category: "Design",
+  link: "https://www.udemy.com/course/ui-ux-web-design-using-adobe-xd/",
+  certificate: "Yes",
+  type: "Paid"
+},{
+  title: "Finance for Non-Finance Professionals",
+  platform: "Coursera",
+  category: "Finance",
+  link: "https://www.coursera.org/learn/finance-for-non-finance",
+  certificate: "Yes",
+  type: "Free"
+},
+{
+  title: "Personal Finance 101",
+  platform: "Udemy",
+  category: "Finance",
+  link: "https://www.udemy.com/course/personal-finance-101/",
+  certificate: "Yes",
+  type: "Paid"
+},{
+  title: "The Complete Web Development Bootcamp",
+  platform: "Udemy",
+  category: "Web Development",
+  link: "https://www.udemy.com/course/the-complete-web-development-bootcamp/",
+  certificate: "Yes",
+  type: "Paid"
+},
+{
+  title: "Responsive Web Design",
+  platform: "freeCodeCamp",
+  category: "Web Development",
+  link: "https://www.freecodecamp.org/learn/2022/responsive-web-design/",
+  certificate: "Yes",
+  type: "Free"
+},
+{
+  title: "Front-End Development with React",
+  platform: "Coursera",
+  category: "Web Development",
+  link: "https://www.coursera.org/learn/front-end-react",
+  certificate: "Yes",
+  type: "Free"
+},
+{
+  title: "Complete Web Development Bootcamp",
+  platform: "Udemy",
+  category: "Web Development",
+  link: "https://www.udemy.com/course/the-complete-web-development-bootcamp/",
+  certificate: "Yes",
+  type: "Paid"
+},
+  {
+    title: "Responsive Web Design",
+    platform: "freeCodeCamp",
+    category: "Web Development",
+    link: "https://www.freecodecamp.org/learn/2022/responsive-web-design",
+    certificate: "Yes",
+    paid: "Free"
+  },
+  {
+    title: "Introduction to Generative AI",
+    platform: "Google Cloud",
+    category: "AI",
+    link: "https://www.cloudskillsboost.google/course_templates/536",
+    certificate: "Yes",
+    paid: "Free"
+  },
+  {
+    title: "Introduction to Digital Marketing",
+    platform: "Great Learning",
+    category: "Marketing",
+    link: "https://www.mygreatlearning.com/academy/learn-for-free/courses/introduction-to-digital-marketing",
+    certificate: "Yes",
+    paid: "Free"
+  },
+  {
+    title: "Graphic Design Basics",
+    platform: "Coursera (CalArts)",
+    category: "Design",
+    link: "https://www.coursera.org/learn/graphic-design",
+    certificate: "Yes (Paid)",
+    paid: "Paid"
+  },
+  {
+    title: "The Science of Well-Being",
+    platform: "Coursera (Yale)",
+    category: "Lifestyle",
+    link: "https://www.coursera.org/learn/the-science-of-well-being",
+    certificate: "Yes (Paid)",
+    paid: "Paid"
+  },
+  {
+    title: "Stock Market Investing for Beginners",
+    platform: "Udemy",
+    category: "Finance",
+    link: "https://www.udemy.com/course/stock-market-investing-for-beginners",
+    certificate: "Yes",
+    paid: "Paid"
+  },
+  {
+    title: "Learn Ethical Hacking for Beginners",
+    platform: "Simplilearn",
+    category: "Security",
+    link: "https://www.simplilearn.com/learn-ethical-hacking-basics-skillup",
+    certificate: "Yes",
+    paid: "Free"
+  },
+  {
+    title: "Introduction to SQL",
+    platform: "Codecademy",
+    category: "Databases",
+    link: "https://www.codecademy.com/learn/learn-sql",
+    certificate: "No (Free version)",
+    paid: "Free"
+  },
+  {
+    title: "Intro to UI/UX Design",
+    platform: "Udacity",
+    category: "Design",
+    link: "https://www.udacity.com/course/product-design--ud509",
+    certificate: "Yes",
+    paid: "Free"
+  },
+  {
+    title: "Basics of Makeup Artistry",
+    platform: "Skillshare",
+    category: "Fashion",
+    link: "https://www.skillshare.com/en/classes/Makeup-Basics/823947151",
+    certificate: "Yes (Premium)",
+    paid: "Paid"
+  },
+  {
+    title: "Build a Python Web App with Flask",
+    platform: "freeCodeCamp (YouTube)",
+    category: "Web Development",
+    link: "https://www.youtube.com/watch?v=Z1RJmh_OqeA",
+    certificate: "No",
+    paid: "Free"
+  },
+  {
+    title: "Time Management for Productivity",
+    platform: "Coursera",
+    category: "Productivity",
+    link: "https://www.coursera.org/learn/time-management",
+    certificate: "Yes (Paid)",
+    paid: "Paid"
+  },
+  {
+    title: "Google Ads Measurement Certification",
+    platform: "Google Skillshop",
+    category: "Marketing",
+    link: "https://skillshop.exceedlms.com/student/path/18103",
+    certificate: "Yes",
+    paid: "Free"
+  },
+  {
+    title: "Tally ERP 9 with GST",
+    platform: "Learnvern",
+    category: "Finance",
+    link: "https://www.learnvern.com/course/tally-course",
+    certificate: "Yes",
+    paid: "Free"
+  },
+  {
+    title: "Introduction to Excel",
+    platform: "Microsoft Learn",
+    category: "Productivity",
+    link: "https://learn.microsoft.com/en-us/training/modules/get-started-microsoft-excel/",
+    certificate: "No",
+    paid: "Free"
+  },
+  {
+    title: "Cloud Computing Basics (Cloud 101)",
+    platform: "Coursera (LearnQuest)",
+    category: "Cloud",
+    link: "https://www.coursera.org/learn/cloud-computing-basics",
+    certificate: "Yes (Paid)",
+    paid: "Paid"
+  },
+  {
+    title: "C++ Programming for Beginners",
+    platform: "Udemy",
+    category: "Programming",
+    link: "https://www.udemy.com/course/c-programming-for-beginners-/",
+    certificate: "Yes",
+    paid: "Paid"
+  },
+  {
+    title: "YouTube SEO: Rank Your Videos",
+    platform: "Skillshare",
+    category: "Content Creation",
+    link: "https://www.skillshare.com/en/classes/YouTube-SEO-Rank-Your-Videos/2018590490",
+    certificate: "Yes (Premium)",
+    paid: "Paid"
+  },
+  {
+    title: "Intro to Cybersecurity",
+    platform: "Cisco Networking Academy",
+    category: "Security",
+    link: "https://skillsforall.com/course/introduction-to-cybersecurity",
+    certificate: "Yes",
+    type: "Free"
+  },
+  {
+    title: "Introduction to Machine Learning",
+    platform: "Kaggle",
+    category: "AI",
+    link: "https://www.kaggle.com/learn/intro-to-machine-learning",
+    certificate: "No",
+    type: "Free"
+  },
+  {
+    title: "Improve Your Communication Skills",
+    platform: "LinkedIn Learning",
+    category: "Communication",
+    link: "https://www.linkedin.com/learning/improve-your-communication-skills",
+    certificate: true,
+    paid: true
+  },
+  {
+    title: "Writing With Confidence: Writing Beginner to Pro",
+    platform: "Udemy",
+    category: "Writing",
+    link: "https://www.udemy.com/course/writing-with-confidence/",
+    certificate: true,
+    paid: true
+  },
+  {
+    title: "Creative Writing Specialization",
+    platform: "Coursera",
+    category: "Writing",
+    link: "https://www.coursera.org/specializations/creative-writing",
+    certificate: true,
+    paid: false
+  },
+  {
+    title: "Dance for Beginners: Learn to Dance at Home",
+    platform: "Skillshare",
+    category: "Dancing",
+    link: "https://www.skillshare.com/en/classes/Dance-for-Beginners-Learn-to-Dance-at-Home/953726493",
+    certificate: false,
+    paid: false
+  },
+  {
+    title: "Photography for Beginners",
+    platform: "Udemy",
+    category: "Photography",
+    link: "https://www.udemy.com/course/photography-masterclass-complete-guide-to-photography/",
+    certificate: true,
+    paid: true
+  },
+  {
+    title: "Drawing & Painting for Beginners",
+    platform: "Domestika",
+    category: "Art",
+    link: "https://www.domestika.org/en/courses/2784-drawing-and-painting-for-beginners",
+    certificate: true,
+    paid: true
+  },
+  {
+    title: "Mastering Public Speaking",
+    platform: "Coursera",
+    category: "Communication",
+    link: "https://www.coursera.org/learn/public-speaking",
+    certificate: true,
+    paid: false
+  },
+  {
+    title: "Fitness & Bodyweight Training for Beginners",
+    platform: "YouTube - MadFit",
+    category: "Fitness",
+    link: "https://www.youtube.com/user/MadFit",
+    certificate: false,
+    paid: false
+  },
+  {
+    title: "Budgeting and Personal Finance 101",
+    platform: "Khan Academy",
+    category: "Finance",
+    link: "https://www.khanacademy.org/college-careers-more/personal-finance",
+    certificate: false,
+    paid: false
+  },
+  {
+    title: "Fashion as Design",
+    platform: "Coursera",
+    category: "Fashion",
+    link: "https://www.coursera.org/learn/fashion-design",
+    certificate: true,
+    paid: false
+  },
+  {
+    title: "Blogging Masterclass: How to Build a Successful Blog",
+    platform: "Udemy",
+    category: "Writing",
+    link: "https://www.udemy.com/course/blogging-masterclass/",
+    certificate: true,
+    paid: true
+  },
+  {
+    title: "Basic Cooking Techniques for Beginners",
+    platform: "YouTube - Tasty",
+    category: "Cooking",
+    link: "https://www.youtube.com/c/buzzfeedtasty",
+    certificate: false,
+    paid: false
+  },
+  {
+    title: "How to Edit Photos Like a Pro (Lightroom & Photoshop)",
+    platform: "Skillshare",
+    category: "Photography",
+    link: "https://www.skillshare.com/en/classes/Photo-Editing-Lightroom-and-Photoshop/166007790",
+    certificate: false,
+    paid: true
+  },
+  {
+    title: "Digital Marketing Basics",
+    platform: "Google Digital Garage",
+    category: "Marketing",
+    link: "https://learndigital.withgoogle.com/digitalgarage/course/digital-marketing",
+    certificate: true,
+    paid: false
+  },
+  {
+    title: "Resume Writing & Job Interview Skills",
+    platform: "LinkedIn Learning",
+    category: "Career",
+    link: "https://www.linkedin.com/learning/resume-writing-and-interview-skills",
+    certificate: true,
+    paid: true
+  },
+  {
+    title: "Mental Health Awareness",
+    platform: "FutureLearn",
+    category: "Psychology",
+    link: "https://www.futurelearn.com/courses/mental-health-awareness",
+    certificate: true,
+    paid: false
+  },
+  {
+    title: "Mindfulness and Meditation Basics",
+    platform: "Udemy",
+    category: "Lifestyle",
+    link: "https://www.udemy.com/course/mindfulness-meditation-guide/",
+    certificate: true,
+    paid: false
+  },
+  {
+    title: "Parenting Skills for New Parents",
+    platform: "Coursera",
+    category: "Parenting",
+    link: "https://www.coursera.org/learn/positive-parenting",
+    certificate: true,
+    paid: false
+  },
+  {
+    title: "Language Learning for Beginners (Spanish)",
+    platform: "Duolingo",
+    category: "career",
+    link: "https://www.duolingo.com/course/es/en/Learn-Spanish",
+    certificate: false,
+    paid: false
+  },
+  {
+    title: "Yoga for Complete Beginners",
+    platform: "YouTube - Yoga With Adriene",
+    category: "Fitness",
+    link: "https://www.youtube.com/user/yogawithadriene",
+    certificate: false,
+    paid: false
+  },
+  {
+    title: "How to Build Self-Confidence",
+    platform: "Udemy",
+    category: "Soft Skills",
+    link: "https://www.udemy.com/course/self-confidence-boost/",
+    certificate: true,
+    paid: false
+  },
+  {
+    title: "Makeup for Beginners",
+    platform: "YouTube - Smitha Deepak",
+    category: "Fashion",
+    link: "https://www.youtube.com/c/SmithaDeepak",
+    certificate: false,
+    paid: false
+  },
+  {
+    title: "Basic Video Editing with CapCut",
+    platform: "YouTube - Justin Brown",
+    category: "Editing",
+    link: "https://www.youtube.com/watch?v=yiZxLC7jPQs",
+    certificate: false,
+    paid: false
+  },
+  {
+    title: "Public Speaking for College Students",
+    platform: "edX",
+    category: "Communication",
+    link: "https://www.edx.org/course/public-speaking",
+    certificate: true,
+    paid: false
+  },
+  {
+    title: "Online Teaching & Digital Education Tools",
+    platform: "Coursera",
+    category: "Soft Skills",
+    link: "https://www.coursera.org/learn/online-teaching",
+    certificate: true,
+    paid: false
+  },
+  {
+    title: "Effective Communication Skills",
+    platform: "Coursera",
+    category: "Communication",
+    link: "https://www.coursera.org/learn/wharton-communication-skills",
+    certificate: "Yes",
+    price: "Free",
+  },
+  {
+    title: "Creative Writing Specialization",
+    platform: "Coursera",
+    category: "Writing",
+    link: "https://www.coursera.org/specializations/creative-writing",
+    certificate: "Yes",
+    price: "Free",
+  },
+  {
+    title: "Beginner Belly Dance Course",
+    platform: "Udemy",
+    category: "Dance",
+    link: "https://www.udemy.com/course/beginner-belly-dance-course/",
+    certificate: "Yes",
+    price: "Paid",
+  },
+  {
+    title: "Business English: Networking",
+    platform: "Coursera",
+    category: "Communication",
+    link: "https://www.coursera.org/learn/business-english-networking",
+    certificate: "Yes",
+    price: "Free",
+  },
+  {
+    title: "Mindshift: Break Through Obstacles to Learning",
+    platform: "Coursera",
+    category: "Soft Skills",
+    link: "https://www.coursera.org/learn/mindshift",
+    certificate: "Yes",
+    price: "Free",
+  },
+  {
+    title: "Indian Classical Dance Basics - Bharatanatyam",
+    platform: "YouTube",
+    category: "Dance",
+    link: "https://www.youtube.com/watch?v=FJPffP-Q2qU",
+    certificate: "No",
+    price: "Free",
+  },
+  {
+    title: "The Science of Well-Being",
+    platform: "Coursera (Yale)",
+    category: "Soft Skills",
+    link: "https://www.coursera.org/learn/the-science-of-well-being",
+    certificate: "Yes",
+    price: "Free",
+  },
+  {
+    title: "Introduction to Storytelling",
+    platform: "edX",
+    category: "Writing",
+    link: "https://www.edx.org/course/the-art-of-storytelling",
+    certificate: "Yes",
+    price: "Free",
+  },
+  {
+    title: "Make Money from Home: 5 Ways to Earn Online",
+    platform: "Udemy",
+    category: "Finance",
+    link: "https://www.udemy.com/course/5-ways-to-make-money-online/",
+    certificate: "Yes",
+    price: "Free",
+  },
+  {
+    title: "Social Media Marketing Masterclass",
+    platform: "Udemy",
+    category: "Marketing",
+    link: "https://www.udemy.com/course/social-media-marketing-masterclass/",
+    certificate: "Yes",
+    price: "Paid",
+  },
+  {
+    title: "Basics of Graphic Design",
+    platform: "Canva Design School",
+    category: "Design",
+    link: "https://www.canva.com/learn/design-school/",
+    certificate: "No",
+    price: "Free",
+  },
+  {
+    title: "Learn Hindi Through English",
+    platform: "YouTube - Pebbles Language",
+    category: "Language",
+    link: "https://www.youtube.com/watch?v=ZkzxyGNyRAg",
+    certificate: "No",
+    price: "Free",
+  },
+  {
+    title: "Public Speaking for Beginners",
+    platform: "Udemy",
+    category: "Communication",
+    link: "https://www.udemy.com/course/public-speaking-for-beginners/",
+    certificate: "Yes",
+    price: "Free",
+  },
+  {
+    title: "Personal Branding on Social Media",
+    platform: "Skillshare",
+    category: "Soft Skills",
+    link: "https://www.skillshare.com/classes/Personal-Branding-on-Social-Media/1530459471",
+    certificate: "No",
+    price: "Paid",
+  },
+  {
+    title: "Spanish for Beginners",
+    platform: "Coursera",
+    category: "Language",
+    link: "https://www.coursera.org/learn/spanish-beginner",
+    certificate: "Yes",
+    price: "Free",
+  },
+  {
+    title: "Freelancing 101: Starting Your Freelance Career",
+    platform: "YouTube - Rob Lennon",
+    category: "Business",
+    link: "https://www.youtube.com/watch?v=KFGy9RnMoHk",
+    certificate: "No",
+    price: "Free",
+  },
+  {
+    title: "Fashion Design for Beginners",
+    platform: "Udemy",
+    category: "Design",
+    link: "https://www.udemy.com/course/fashion-design-for-beginners/",
+    certificate: "Yes",
+    price: "Paid",
+  },
+  {
+    title: "Critical Thinking for Better Judgment",
+    platform: "edX",
+    category: "Personal Development",
+    link: "https://www.edx.org/course/critical-thinking",
+    certificate: "Yes",
+    price: "Free",
+  },
+  {
+    title: "Makeup Artistry for Beginners",
+    platform: "YouTube - Smitha Deepak",
+    category: "Fashion",
+    link: "https://www.youtube.com/watch?v=E60zAThAFMQ",
+    certificate: "No",
+    price: "Free",
+  },
+  {
+    title: "Music Theory Fundamentals",
+    platform: "Coursera",
+    category: "Music",
+    link: "https://www.coursera.org/learn/intro-music-theory",
+    certificate: "Yes",
+    price: "Free",
+  },
+  {
+    title: "Introduction to Philosophy",
+    platform: "Coursera",
+    category: "Humanities",
+    link: "https://www.coursera.org/learn/philosophy",
+    certificate: "Yes",
+    price: "Free",
+  },
+  {
+    title: "Baking Made Easy: Learn to Bake from Scratch",
+    platform: "Udemy",
+    category: "Cooking",
+    link: "https://www.udemy.com/course/baking-made-easy/",
+    certificate: "Yes",
+    price: "Paid",
+  },
+  {
+    title: "Basic Yoga for Beginners",
+    platform: "YouTube - Yoga With Adriene",
+    category: "Health",
+    link: "https://www.youtube.com/watch?v=v7AYKMP6rOE",
+    certificate: "No",
+    price: "Free",
+  },
+  {
+    title: "Event Planning Foundations",
+    platform: "LinkedIn Learning",
+    category: "Business",
+    link: "https://www.linkedin.com/learning/event-planning-foundations",
+    certificate: "Yes",
+    price: "Paid",
+  },
+  {
+    title: "Boost Your Emotional Intelligence",
+    platform: "edX",
+    category: "Psychology",
+    link: "https://www.edx.org/course/emotional-intelligence",
+    certificate: "Yes",
+    price: "Free",
+  },
+  {
+    title: "Interior Design Basics",
+    platform: "Udemy",
+    category: "Design",
+    link: "https://www.udemy.com/course/interior-design-basics/",
+    certificate: "Yes",
+    price: "Paid",
+  },
+  {
+    title: "Learn Guitar in 21 Days",
+    platform: "YouTube - JustinGuitar",
+    category: "Music",
+    link: "https://www.youtube.com/playlist?list=PL-rYwe2HbzXzS8C_wCCFIPNMnXM49CwN8",
+    certificate: "No",
+    price: "Free",
+  },
+  {
+    title: "How to Start a Podcast",
+    platform: "Skillshare",
+    category: "Communication",
+    link: "https://www.skillshare.com/classes/Podcasting-for-Beginners/1179825194",
+    certificate: "No",
+    price: "Paid",
+  },
+  {
+    title: "Basics of Acting",
+    platform: "YouTube - NY Acting School",
+    category: "Acting",
+    link: "https://www.youtube.com/watch?v=9bfhV9PbaJg",
+    certificate: "No",
+    price: "Free",
+  },
+  {
+    title: "Customer Service Fundamentals",
+    platform: "Coursera",
+    category: "Business",
+    link: "https://www.coursera.org/learn/customer-service",
+    certificate: "Yes",
+    price: "Free",
+  },
+  {
+    title: "Basics of Agriculture",
+    platform: "YouTube - ICAR Education",
+    category: "Agriculture",
+    link: "https://www.youtube.com/watch?v=8WqhTvE0_OA",
+    certificate: "No",
+    price: "Free",
+  },
+  {
+    title: "Introduction to AI for Everyone",
+    platform: "Coursera",
+    category: "AI",
+    link: "https://www.coursera.org/learn/ai-for-everyone",
+    certificate: "Yes",
+    price: "Free",
+  },
 
-    // Python
-    { title: "The Complete Python Bootcamp", category: "Python", platform: "Udemy", link: "https://www.udemy.com/course/complete-python-bootcamp/", certificate: true, paid: true },
-    { title: "Learn Python - Full Course for Beginners", category: "Python", platform: "YouTube - freeCodeCamp", link: "https://www.youtube.com/watch?v=rfscVS0vtbw", certificate: false, paid: false },
-    { title: "Python for Everybody", category: "Python", platform: "Coursera", link: "https://www.coursera.org/specializations/python", certificate: true, paid: false },
-
-    // AI
-    { title: "AI For Everyone", category: "AI", platform: "Coursera", link: "https://www.coursera.org/learn/ai-for-everyone", certificate: true, paid: false },
-    { title: "Introduction to Generative AI", category: "AI", platform: "Google Cloud", link: "https://www.cloudskillsboost.google/course_templates/536", certificate: true, paid: false },
-    { title: "Introduction to Machine Learning", category: "AI", platform: "Kaggle", link: "https://www.kaggle.com/learn/intro-to-machine-learning", certificate: true, paid: false },
-
-    // Design
-    { title: "Graphic Design Basics", category: "Design", platform: "Coursera (CalArts)", link: "https://www.coursera.org/learn/graphic-design", certificate: true, paid: false },
-    { title: "UI/UX Design with Adobe XD", category: "Design", platform: "Udemy", link: "https://www.udemy.com/course/ui-ux-web-design-using-adobe-xd/", certificate: true, paid: true },
-    { title: "Intro to UI/UX Design", category: "Design", platform: "Udacity", link: "https://www.udacity.com/course/product-design--ud509", certificate: false, paid: false },
-    { title: "Fashion as Design", category: "Design", platform: "Coursera", link: "https://www.coursera.org/learn/fashion-design", certificate: true, paid: false },
-    { title: "Interior Design Basics", category: "Design", platform: "Udemy", link: "https://www.udemy.com/course/interior-design-basics/", certificate: true, paid: true },
-    { title: "Basics of Graphic Design", category: "Design", platform: "Canva Design School", link: "https://www.canva.com/learn/", certificate: false, paid: false },
-    { title: "Fashion Design for Beginners", category: "Design", platform: "Udemy", link: "https://www.udemy.com/course/fashion-design-for-beginners/", certificate: true, paid: true },
-
-    // Finance
-    { title: "Finance for Non-Finance Professionals", category: "Finance", platform: "Coursera", link: "https://www.coursera.org/learn/finance-for-non-finance", certificate: true, paid: false },
-    { title: "Personal Finance 101", category: "Finance", platform: "Udemy", link: "https://www.udemy.com/course/personal-finance-101/", certificate: true, paid: true },
-    { title: "Stock Market Investing for Beginners", category: "Finance", platform: "Udemy", link: "https://www.udemy.com/course/stock-market-investing-for-beginners-india/", certificate: true, paid: true },
-    { title: "Budgeting and Personal Finance", category: "Finance", platform: "Khan Academy", link: "https://www.khanacademy.org/college-careers-more/personal-finance", certificate: false, paid: false },
-    { title: "Tally ERP 9 with GST", category: "Finance", platform: "Learnvern", link: "https://www.learnvern.com/course/tally-course", certificate: true, paid: false },
-    { title: "Digital Marketing Basics", category: "Finance", platform: "Google Digital Garage", link: "https://learndigital.withgoogle.com/digitalgarage/course/digital-marketing", certificate: true, paid: false },
-
-    // Cooking
-    { title: "Essential Cooking Skills", category: "Cooking", platform: "Udemy", link: "https://www.udemy.com/course/cooking-skills/", certificate: true, paid: true },
-    { title: "Indian Cooking Course", category: "Cooking", platform: "YouTube - Hebbars Kitchen", link: "https://www.youtube.com/@hebbarskitchen", certificate: false, paid: false },
-    { title: "Basic Cooking Techniques for Beginners", category: "Cooking", platform: "YouTube - Tasty", link: "https://www.youtube.com/@tasty", certificate: false, paid: false },
-    { title: "Baking Made Easy", category: "Cooking", platform: "Udemy", link: "https://www.udemy.com/course/baking-masterclass/", certificate: true, paid: true },
-    { title: "Indian Cooking Essentials", category: "Cooking", platform: "YouTube - Hebbars Kitchen", link: "https://www.youtube.com/@hebbarskitchen", certificate: false, paid: false },
-    { title: "Mastering YouTube Cooking", category: "Cooking", platform: "YouTube", link: "https://www.youtube.com/results?search_query=cooking+masterclass", certificate: false, paid: false },
-
-    // Security
-    { title: "Learn Ethical Hacking", category: "Security", platform: "YouTube - NetworkChuck", link: "https://www.youtube.com/watch?v=3Kq1MIfTWCE", certificate: false, paid: false },
-    { title: "Intro to Cybersecurity", category: "Security", platform: "Cisco Networking Academy", link: "https://skillsforall.com/course/introduction-to-cybersecurity", certificate: true, paid: false },
-    { title: "Learn Ethical Hacking for Beginners", category: "Security", platform: "Simplilearn", link: "https://www.simplilearn.com/learn-ethical-hacking-basics-skillup", certificate: true, paid: false },
-
-    // Data Science
-    { title: "SQL for Data Science", category: "Data Science", platform: "Coursera", link: "https://www.coursera.org/learn/sql-for-data-science", certificate: true, paid: false },
-    { title: "Data Science Fundamentals", category: "Data Science", platform: "IBM - Coursera", link: "https://www.coursera.org/professional-certificates/ibm-data-science", certificate: true, paid: false },
-
-    // IT
-    { title: "Google IT Support Professional Certificate", category: "IT", platform: "Coursera - Google", link: "https://www.coursera.org/professional-certificates/google-it-support", certificate: true, paid: false },
-    { title: "CompTIA IT Fundamentals", category: "IT", platform: "YouTube - Professor Messer", link: "https://www.youtube.com/watch?v=9NYHtYmNpSE", certificate: false, paid: false },
-
-    // Communication
-    { title: "Improve Your Communication Skills", category: "Communication", platform: "LinkedIn Learning", link: "https://www.linkedin.com/learning/communication-foundations", certificate: true, paid: true },
-    { title: "Mastering Public Speaking", category: "Communication", platform: "Coursera", link: "https://www.coursera.org/learn/public-speaking", certificate: true, paid: false },
-    { title: "Effective Communication Skills", category: "Communication", platform: "Coursera", link: "https://www.coursera.org/learn/wharton-communication-skills", certificate: true, paid: false },
-    { title: "Business English: Networking", category: "Communication", platform: "Coursera", link: "https://www.coursera.org/learn/business-english-networking", certificate: true, paid: false },
-    { title: "Public Speaking for Beginners", category: "Communication", platform: "Udemy", link: "https://www.udemy.com/course/public-speaking-for-beginners/", certificate: true, paid: false },
-    { title: "How to Start a Podcast", category: "Communication", platform: "YouTube - Pat Flynn", link: "https://www.youtube.com/watch?v=UjqZNRNT42A", certificate: false, paid: false },
-
-    // Productivity
-    { title: "Time Management for Productivity", category: "Productivity", platform: "Coursera", link: "https://www.coursera.org/learn/work-smarter-not-harder", certificate: true, paid: false },
-    { title: "Introduction to Excel", category: "Productivity", platform: "Microsoft Learn", link: "https://learn.microsoft.com/en-us/training/modules/get-started-microsoft-excel/", certificate: false, paid: false },
-    { title: "Google Workspace Productivity", category: "Productivity", platform: "Google", link: "https://workspace.google.com/intl/en/features/", certificate: false, paid: false },
-
-    // Cloud
-    { title: "Cloud Computing Basics", category: "Cloud", platform: "Coursera", link: "https://www.coursera.org/learn/cloud-computing-basics", certificate: true, paid: false },
-    { title: "AWS Cloud Practitioner Essentials", category: "Cloud", platform: "AWS", link: "https://aws.amazon.com/training/digital/aws-cloud-practitioner-essentials/", certificate: true, paid: false },
-
-    // Programming
-    { title: "C++ Programming for Beginners", category: "Programming", platform: "Udemy", link: "https://www.udemy.com/course/beginning-c-plus-plus-programming/", certificate: true, paid: true },
-    { title: "Learn C++ for Beginners", category: "Programming", platform: "YouTube - freeCodeCamp", link: "https://www.youtube.com/watch?v=vLnPwxZdW4Y", certificate: false, paid: false },
-
-    // Content Creation
-    { title: "How to Start a YouTube Channel", category: "Content Creation", platform: "YouTube - Think Media", link: "https://www.youtube.com/watch?v=_6U5mFxM3hY", certificate: false, paid: false },
-    { title: "YouTube SEO: Rank Your Videos", category: "Content Creation", platform: "YouTube - vidIQ", link: "https://www.youtube.com/watch?v=Kg1oBpOEQhY", certificate: false, paid: false },
-
-    // Writing
-    { title: "Writing With Confidence", category: "Writing", platform: "Udemy", link: "https://www.udemy.com/course/writing-with-confidence/", certificate: true, paid: true },
-    { title: "Creative Writing Specialization", category: "Writing", platform: "Coursera", link: "https://www.coursera.org/specializations/creative-writing", certificate: true, paid: false },
-    { title: "Blogging Masterclass", category: "Writing", platform: "Udemy", link: "https://www.udemy.com/course/blogging-masterclass/", certificate: true, paid: true },
-    { title: "Introduction to Storytelling", category: "Writing", platform: "edX", link: "https://www.edx.org/learn/writing/rochester-institute-of-technology-storytelling-and-influence-communicating-with-impact", certificate: true, paid: false },
-
-    // Dancing
-    { title: "Dance for Beginners", category: "Dancing", platform: "YouTube - Steezy Studio", link: "https://www.youtube.com/watch?v=yOxn9VRBgYM", certificate: false, paid: false },
-    { title: "Indian Classical Dance - Bharatanatyam", category: "Dancing", platform: "YouTube", link: "https://www.youtube.com/watch?v=FJPffP-Q2qU", certificate: false, paid: false },
-    { title: "Beginner Belly Dance Course", category: "Dancing", platform: "Udemy", link: "https://www.udemy.com/course/beginner-belly-dance-course/", certificate: true, paid: true },
-
-    // Photography
-    { title: "Photography for Beginners", category: "Photography", platform: "Udemy", link: "https://www.udemy.com/course/photography-masterclass-complete-guide-to-photography/", certificate: true, paid: true },
-    { title: "How to Edit Photos (Lightroom)", category: "Photography", platform: "YouTube - Peter McKinnon", link: "https://www.youtube.com/watch?v=B1-wmghVCmA", certificate: false, paid: false },
-
-    // Art
-    { title: "Drawing and Painting for Beginners", category: "Art", platform: "Domestika", link: "https://www.domestika.org/en/courses/2784-drawing-and-painting-for-beginners", certificate: true, paid: true },
-    { title: "Digital Art for Beginners", category: "Art", platform: "YouTube - Art with Flo", link: "https://www.youtube.com/watch?v=-v8ZfkYgd9A", certificate: false, paid: false },
-
-    // Fitness
-    { title: "Fitness Training for Beginners", category: "Fitness", platform: "YouTube - Chloe Ting", link: "https://www.youtube.com/@ChloeTing", certificate: false, paid: false },
-    { title: "Yoga for Complete Beginners", category: "Fitness", platform: "YouTube - Yoga With Adriene", link: "https://www.youtube.com/@yogawithadriene", certificate: false, paid: false },
-    { title: "Fitness & Bodyweight Training", category: "Fitness", platform: "YouTube - MadFit", link: "https://www.youtube.com/@MadFit", certificate: false, paid: false },
-
-    // Career
-    { title: "Resume Writing & Job Interview Skills", category: "Career", platform: "LinkedIn Learning", link: "https://www.linkedin.com/learning/writing-a-resume", certificate: true, paid: true },
-    { title: "Career Success Specialization", category: "Career", platform: "Coursera", link: "https://www.coursera.org/specializations/career-success", certificate: true, paid: false },
-
-    // Psychology
-    { title: "Mental Health Awareness", category: "Psychology", platform: "FutureLearn", link: "https://www.futurelearn.com/courses/mental-health-and-well-being", certificate: true, paid: false },
-    { title: "Meditation and Mindfulness", category: "Psychology", platform: "Coursera", link: "https://www.coursera.org/learn/mindfulness-and-well-being", certificate: true, paid: false },
-    { title: "Boost Your Emotional Intelligence", category: "Psychology", platform: "edX", link: "https://www.edx.org/learn/emotional-intelligence", certificate: true, paid: false },
-
-    // Parenting
-    { title: "Parenting Skills for New Parents", category: "Parenting", platform: "Coursera", link: "https://www.coursera.org/learn/positive-parenting", certificate: true, paid: false },
-    { title: "Child Care and Development", category: "Parenting", platform: "Alison", link: "https://alison.com/course/childcare-and-development", certificate: true, paid: false },
-
-    // Soft Skills
-    { title: "How to Build Self-Confidence", category: "Soft Skills", platform: "Udemy", link: "https://www.udemy.com/course/self-confidence-boost/", certificate: true, paid: false },
-    { title: "Mindshift: Break Through Obstacles", category: "Soft Skills", platform: "Coursera", link: "https://www.coursera.org/learn/mindshift", certificate: true, paid: false },
-    { title: "The Science of Well-Being", category: "Soft Skills", platform: "Coursera (Yale)", link: "https://www.coursera.org/learn/the-science-of-well-being", certificate: true, paid: false },
-
-    // Editing
-    { title: "Basic Video Editing with CapCut", category: "Editing", platform: "YouTube - Justin Brown", link: "https://www.youtube.com/watch?v=yiZxLC7jPQs", certificate: false, paid: false },
-    { title: "Video Editing Masterclass", category: "Editing", platform: "Udemy", link: "https://www.udemy.com/course/video-editing/", certificate: true, paid: true },
-
-    // Language
-    { title: "Learn Hindi Through English", category: "Language", platform: "YouTube - Pebbles Language", link: "https://www.youtube.com/watch?v=ZkzxyGNyRAg", certificate: false, paid: false },
-    { title: "Spanish for Beginners", category: "Language", platform: "Coursera", link: "https://www.coursera.org/learn/learn-spanish", certificate: true, paid: false },
-    { title: "Learn a Language with Duolingo", category: "Language", platform: "Duolingo", link: "https://www.duolingo.com", certificate: false, paid: false },
-
-    // Business
-    { title: "Business Foundations", category: "Business", platform: "Coursera (Wharton)", link: "https://www.coursera.org/specializations/wharton-business-foundations", certificate: true, paid: false },
-    { title: "Freelancing 101", category: "Business", platform: "YouTube - Rob Lennon", link: "https://www.youtube.com/watch?v=KFGy9RnMoHk", certificate: false, paid: false },
-    { title: "Event Planning Foundations", category: "Business", platform: "LinkedIn Learning", link: "https://www.linkedin.com/learning/event-planning-foundations", certificate: true, paid: true },
-
-    // Personal Development
-    { title: "Critical Thinking for Better Judgment", category: "Personal Development", platform: "edX", link: "https://www.edx.org/learn/critical-thinking", certificate: true, paid: false },
-    { title: "Learning How to Learn", category: "Personal Development", platform: "Coursera", link: "https://www.coursera.org/learn/learning-how-to-learn", certificate: true, paid: false },
-
-    // Music
-    { title: "Music Theory Fundamentals", category: "Music", platform: "Coursera", link: "https://www.coursera.org/learn/musicianship-capstone", certificate: true, paid: false },
-    { title: "Learn Guitar in 21 Days", category: "Music", platform: "YouTube - JustinGuitar", link: "https://www.youtube.com/watch?v=SkgOrh9KQGA", certificate: false, paid: false },
-    { title: "Music Production in GarageBand", category: "Music", platform: "YouTube - MusicTechHelpGuy", link: "https://www.youtube.com/watch?v=bFJtBhmV3_c", certificate: false, paid: false },
-
-    // Humanities
-    { title: "Introduction to Philosophy", category: "Humanities", platform: "Coursera", link: "https://www.coursera.org/learn/philosophy", certificate: true, paid: false },
-    { title: "The Modern World History", category: "Humanities", platform: "Coursera", link: "https://www.coursera.org/learn/modern-world", certificate: true, paid: false },
-
-    // Health
-    { title: "Basic Yoga for Beginners", category: "Health", platform: "YouTube - Yoga With Adriene", link: "https://www.youtube.com/watch?v=v7AYKMP6rOE", certificate: false, paid: false },
-    { title: "Nutrition and Healthy Living", category: "Health", platform: "FutureLearn", link: "https://www.futurelearn.com/courses/nutrition-and-wellbeing", certificate: true, paid: false },
-
-    // Acting
-    { title: "Basics of Acting", category: "Acting", platform: "YouTube - NY Film Academy", link: "https://www.youtube.com/watch?v=9bfhV9PbaJg", certificate: false, paid: false },
-    { title: "Introduction to Acting", category: "Acting", platform: "Udemy", link: "https://www.udemy.com/course/acting-for-beginners/", certificate: true, paid: true },
-
-    // Agriculture
-    { title: "Basics of Agriculture", category: "Agriculture", platform: "YouTube - ICAR Education", link: "https://www.youtube.com/watch?v=8WqhTvE0_OA", certificate: false, paid: false },
-    { title: "Sustainable Farming Basics", category: "Agriculture", platform: "edX", link: "https://www.edx.org/learn/agriculture/wageningen-university-research-sustainable-food-security-crop-production", certificate: true, paid: false },
-
-    // Sports
-    { title: "Football Skills Training", category: "Sports", platform: "YouTube - 7MLC", link: "https://www.youtube.com/watch?v=CXzU1ZB6zUk", certificate: false, paid: false },
-    { title: "Learn Table Tennis Basics", category: "Sports", platform: "YouTube - Table Tennis University", link: "https://www.youtube.com/watch?v=CKLjkVDlX54", certificate: false, paid: false },
-
-    // Architecture
-    { title: "Architecture 101", category: "Architecture", platform: "Harvard - edX", link: "https://pll.harvard.edu/course/architecture", certificate: true, paid: false },
-    { title: "Introduction to Architecture", category: "Architecture", platform: "Coursera", link: "https://www.coursera.org/learn/design-architecture", certificate: true, paid: false },
-
-    // Blockchain
-    { title: "Basics of Blockchain", category: "Blockchain", platform: "Coursera", link: "https://www.coursera.org/learn/blockchain-basics", certificate: true, paid: false },
-    { title: "Blockchain Fundamentals", category: "Blockchain", platform: "edX", link: "https://www.edx.org/learn/blockchain", certificate: true, paid: false },
-
-    // Lifestyle
-    { title: "The Science of Well-Being", category: "Lifestyle", platform: "Coursera (Yale)", link: "https://www.coursera.org/learn/the-science-of-well-being", certificate: true, paid: false },
-    { title: "Mindfulness and Meditation Basics", category: "Lifestyle", platform: "Udemy", link: "https://www.udemy.com/course/mindfulness-meditation-guide/", certificate: true, paid: false },
-    { title: "Skincare Routine Guide", category: "Lifestyle", platform: "YouTube - Hyram", link: "https://www.youtube.com/@skincarebyhyram", certificate: false, paid: false },
-
-    // Animation
-    { title: "Make Your First Animation", category: "Animation", platform: "YouTube - Stylus Rumble", link: "https://www.youtube.com/watch?v=KaaHkZzS-dE", certificate: false, paid: false },
-    { title: "Introduction to Animation", category: "Animation", platform: "Coursera", link: "https://www.coursera.org/learn/digital-media-animation", certificate: true, paid: false },
-
-    // Fashion
-    { title: "Basics of Makeup Artistry", category: "Fashion", platform: "YouTube - Smitha Deepak", link: "https://www.youtube.com/@SmithaDeepak", certificate: false, paid: false },
-    { title: "Fashion Merchandising and Styling", category: "Fashion", platform: "YouTube - Fashion Business", link: "https://www.youtube.com/watch?v=9vCIKcWmvQ8", certificate: false, paid: false },
-    { title: "Fashion as Design", category: "Fashion", platform: "Coursera", link: "https://www.coursera.org/learn/fashion-design", certificate: true, paid: false },
-
-    // Databases
-    { title: "Introduction to SQL", category: "Databases", platform: "Codecademy", link: "https://www.codecademy.com/learn/learn-sql", certificate: true, paid: false },
-    { title: "Database Management Essentials", category: "Databases", platform: "Coursera", link: "https://www.coursera.org/learn/database-management", certificate: true, paid: false },
-
-    // Marketing
-    { title: "Digital Marketing Basics", category: "Marketing", platform: "Google Digital Garage", link: "https://learndigital.withgoogle.com/digitalgarage/course/digital-marketing", certificate: true, paid: false },
-    { title: "Social Media Marketing Masterclass", category: "Marketing", platform: "Udemy", link: "https://www.udemy.com/course/social-media-marketing-masterclass/", certificate: true, paid: true },
-    { title: "Google Ads Certification", category: "Marketing", platform: "Google Skillshop", link: "https://skillshop.withgoogle.com/", certificate: true, paid: false },
+  {
+    title: "Football Skills Training",
+    platform: "YouTube - 7MLC",
+    category: "Sports",
+    link: "https://www.youtube.com/watch?v=CXzU1ZB6zUk",
+    certificate: "No",
+    price: "Free",
+  },
+  {
+    title: "Indian Cooking Essentials",
+    platform: "YouTube - Hebbars Kitchen",
+    category: "Cooking",
+    link: "https://www.youtube.com/watch?v=B7VpJ3wN8Fo",
+    certificate: "No",
+    price: "Free",
+  },
+  {
+    title: "Digital Art for Beginners",
+    platform: "YouTube - Art with Flo",
+    category: "Art",
+    link: "https://www.youtube.com/watch?v=-v8ZfkYgd9A",
+    certificate: "No",
+    price: "Free",
+  },
+  {
+    title: "Architecture 101",
+    platform: "edX - Harvard",
+    category: "Architecture",
+    link: "https://pll.harvard.edu/course/architecture?delta=0",
+    certificate: "Yes",
+    price: "Free",
+  },
+  {
+    title: "Child Care and Development",
+    platform: "Alison",
+    category: "Parenting",
+    link: "https://alison.com/course/childcare-and-development",
+    certificate: "Yes",
+    price: "Free",
+  },
+  {
+    title: "Fitness Training for Beginners",
+    platform: "YouTube - Chloe Ting",
+    category: "Fitness",
+    link: "https://www.youtube.com/watch?v=2pLT-olgUJs",
+    certificate: "No",
+    price: "Free",
+  },
+  {
+    title: "Meditation and Mindfulness",
+    platform: "Coursera - Rice University",
+    category: "Psychology",
+    link: "https://www.coursera.org/learn/mindfulness-and-well-being",
+    certificate: "Yes",
+    price: "Free",
+  },
+ 
+  {
+    title: "Learn Table Tennis Basics",
+    platform: "YouTube - Table Tennis University",
+    category: "Sports",
+    link: "https://www.youtube.com/watch?v=CKLjkVDlX54",
+    certificate: "No",
+    price: "Free",
+  },
+  {
+    title: "Fashion Merchandising and Styling",
+    platform: "YouTube - Fashion Business",
+    category: "Fashion",
+    link: "https://www.youtube.com/watch?v=9vCIKcWmvQ8",
+    certificate: "No",
+    price: "Free",
+  },
+  {
+    title: "Nutrition and Healthy Living",
+    platform: "FutureLearn",
+    category: "Health",
+    link: "https://www.futurelearn.com/courses/nutrition-and-wellbeing",
+    certificate: "Yes",
+    price: "Free",
+  },
+  {
+    title: "Sustainable Farming Basics",
+    platform: "edX - Wageningen University",
+    category: "Agriculture",
+    link: "https://www.edx.org/course/sustainable-food-security-crop-production",
+    certificate: "Yes",
+    price: "Free",
+  },
+  {
+    title: "How to Start a YouTube Channel",
+    platform: "YouTube - Think Media",
+    category: "Content Creation",
+    link: "https://www.youtube.com/watch?v=_6U5mFxM3hY",
+    certificate: "No",
+    price: "Free",
+  },
+  {
+    title: "Basics of Blockchain",
+    platform: "Coursera",
+    category: "Blockchain",
+    link: "https://www.coursera.org/learn/blockchain-basics",
+    certificate: "Yes",
+    price: "Free",
+  },
+  {
+    title: "Skincare Routine Guide",
+    platform: "YouTube - Hyram",
+    category: "Lifestyle",
+    link: "https://www.youtube.com/watch?v=5W3UWi5_EPM",
+    certificate: "No",
+    price: "Free",
+  },
+  {
+    title: "Make Your First Animation",
+    platform: "YouTube - Stylus Rumble",
+    category: "Animation",
+    link: "https://www.youtube.com/watch?v=KaaHkZzS-dE",
+    certificate: "No",
+    price: "Free",
+  },
+  {
+    title: "Music Production in GarageBand",
+    platform: "YouTube - MusicTechHelpGuy",
+    category: "Music",
+    link: "https://www.youtube.com/watch?v=bFJtBhmV3_c",
+    certificate: "No",
+    price: "Free",
+  }
+    
+    
   ];
 
   const urlParams = new URLSearchParams(window.location.search);
@@ -287,13 +1099,11 @@
   const filteredCourses = courses.filter(c => c.category === category);
 
   if (filteredCourses.length === 0) {
-    courseList.innerHTML = `<div class="col-12 text-center text-muted mt-4"><h4>No courses found in this category.</h4><p>Check back soon!</p></div>`;
+    courseList.innerHTML = `<div class="col-12 text-center text-muted">No courses found in this category.</div>`;
   } else {
     filteredCourses.forEach(course => {
       const certText = course.certificate ? "🎓 Certificate Provided" : "❌ No Certificate";
-      const badge = course.paid
-        ? "<span class='badge bg-danger'>Paid</span>"
-        : "<span class='badge bg-success'>Free</span>";
+      const badge = course.paid ? "<span class='badge bg-danger'>Paid</span>" : "<span class='badge bg-success'>Free</span>";
       courseList.innerHTML += `
         <div class="col-md-4 mb-4">
           <div class="card course-card h-100">
