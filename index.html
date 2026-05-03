@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Register & Login Example</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+html { box-sizing: border-box; }
+*, *:before, *:after { box-sizing: inherit; }
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #53b8fd 0%, #b0e6ff 100%);
+  font-family: 'Poppins', sans-serif;
+  margin: 0; padding: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.center-container { width: 900px; max-width: 98vw; display: flex; align-items: stretch; border-radius: 24px; z-index: 2; }
+.welcome-pane { flex: 1.09; display: flex; flex-direction: column; justify-content: center; border-radius: 24px 0 0 24px; padding: 60px 36px 60px 48px; min-width: 320px; color: #fff; position: relative; align-items: flex-start; background: rgba(39,154,255,0.19); }
+.welcome-title { font-size: 2.17em; letter-spacing: .08em; font-weight: 700; margin-bottom: 18px; margin-top: 8px; color: #fff; text-shadow: 0 2px 18px #5fc7ff60; z-index: 1; }
+.welcome-desc { font-size: 1em; opacity: 0.8; color: #f0fafc; line-height: 1.58; margin-bottom: 40px; z-index: 1; }
+.form-pane { flex: 1; min-width: 340px; background: #fff; border-radius: 0 24px 24px 0; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 24px #53b8fd22; }
+.form-card { width: 98%; max-width: 350px; margin: 32px 0; display:flex; flex-direction:column; z-index: 2; padding: 28px 28px 20px 28px; border-radius: 18px; background: #fff; box-shadow: 0 1px 14px #cdf0ff19; position: relative; }
+.form-card h2 { margin-bottom: 16px; color: #2591ee; font-weight: 600; letter-spacing: 0.03em; font-size: 1.33em; text-align: left; }
+.form-card label { font-size: 0.99em; color: #2895ef; margin-bottom: 8px; text-align:left; font-weight: 500; margin-top: 2px; }
+.form-card input { display: block; width: 100%; min-width: 0; padding: 13px 17px; border-radius: 8px; border: 1.6px solid #eef6fa; outline: none; font-size: 1em; background: #f7fbfd; color: #196faf; margin-bottom: 16px; margin-top: 3px; transition: border 0.19s; box-sizing: border-box; }
+.form-card input:focus { border: 1.6px solid #53b8fd; background: #fff; }
+.form-card button[type=submit] { background: linear-gradient(90deg, #53b8fd 45%, #2e97e1 100%); color: #fff; font-weight: 700; padding: 13px 0; border: none; border-radius: 8px; font-size: 1.13em; cursor: pointer; margin-top: 8px; margin-bottom: 9px; box-shadow: 0 2px 14px #53b8fd41; transition: filter .17s; letter-spacing: 0.04em; }
+.form-card button[type=submit]:hover { filter: brightness(1.08); }
+.toggle-link { display: inline-block; text-align: left; font-size: 1em; color: #2591ee; background: none; border: none; margin-top: 8px; margin-bottom: 0; cursor: pointer; text-decoration: underline; transition: color .16s; padding: 0; }
+.toggle-link:hover { color: #0f5da1; }
+.error-msg { color: #d32f2f; background: #fff3f0; border-left: 4px solid #d32f2f; font-size: 0.99em; padding: 6px 14px; border-radius: 8px; margin-bottom: 8px; margin-top: -7px; display: none; }
+.overlay-message { display: none; position: fixed; left: 0; top: 0; width: 100vw; height: 100vh; z-index: 1000; background: rgba(50,168,255,0.08); align-items: center; justify-content: center; flex-direction: column; }
+.spinner { border: 5px solid #e0f3fb; border-top: 5px solid #53b8fd; border-radius: 50%; width: 48px; height: 48px; animation: spin 1s linear infinite; margin-bottom: 18px; }
+@keyframes spin { 100% { transform: rotate(360deg); } }
+.overlay-message-text { font-size: 1.25em; color: #1667b0; background: #f7fbff; padding: 24px 26px 18px 26px; border-radius: 16px; font-weight: 500; box-shadow: 0 1px 12px #3db8fd16; letter-spacing: 0.02em; }
+@media (max-width: 890px) { .center-container { flex-direction: column; max-width: 100vw; min-width:0; } .welcome-pane { min-width: 0; border-radius: 24px 24px 0 0; padding: 32px 14px 12px 16px; align-items: center;} .form-pane { border-radius: 0 0 24px 24px; } .form-card { padding: 17px 2vw; max-width: 97vw;} }
+</style>
+</head>
+<body>
+<div class="center-container" id="mainContainer">
+  <div class="welcome-pane" id="welcomePane">
+    <div class="welcome-title">REGISTER</div>
+    <div class="welcome-desc">Create an account to continue. Safe. Quick. Easy.</div>
+  </div>
+  <div class="form-pane" id="formPane">
+    <!-- Register Form (default) -->
+    <form class="form-card" id="registerForm">
+      <h2>Create Account</h2>
+      <div class="error-msg" id="registerError"></div>
+      <label for="reg_name">Name</label>
+      <input id="reg_name" type="text" placeholder="Enter your full name" required autocomplete="name">
+      <label for="reg_username">Email</label>
+      <input id="reg_username" type="email" placeholder="Enter your email" required autocomplete="email">
+      <label for="reg_password">Password</label>
+      <input id="reg_password" type="password" placeholder="Create a password" required autocomplete="new-password">
+      <button type="submit">REGISTER</button>
+      <a class="toggle-link" id="goLogin">Already have an account? Login</a>
+    </form>
+
+    <!-- Login Form -->
+    <form class="form-card" id="loginForm" style="display:none;">
+      <h2>Sign in</h2>
+      <div class="error-msg" id="loginError"></div>
+      <label for="login_username">Email</label>
+      <input id="login_username" type="email" placeholder="Enter your email" required autocomplete="username">
+      <label for="login_password">Password</label>
+      <input id="login_password" type="password" placeholder="Enter your password" required autocomplete="current-password">
+      <button type="submit">LOGIN</button>
+      <a class="toggle-link" id="goRegister">No account? Register</a>
+      <a class="toggle-link" id="forgotPasswordLink">Forgot Password?</a>
+    </form>
+
+    <!-- Forgot/Reset Password Form -->
+    <form class="form-card" id="forgotForm" style="display:none;">
+      <h2>Reset Password</h2>
+      <div class="error-msg" id="forgotError"></div>
+      <label for="forgot_email">Email</label>
+      <input id="forgot_email" type="email" placeholder="Enter your registered email" required>
+      <label for="forgot_newpwd">New Password</label>
+      <input id="forgot_newpwd" type="password" placeholder="Enter new password" required>
+      <button type="submit">RESET PASSWORD</button>
+      <a class="toggle-link" id="backToLogin">Back to Login</a>
+    </form>
+  </div>
+
+  <div class="overlay-message" id="overlayMsg">
+    <div class="spinner"></div>
+    <div class="overlay-message-text" id="overlayMsgText">Loading, please wait...</div>
+  </div>
+</div>
+
+<script>
+// LocalStorage functions
+function setUsers(arr){ localStorage.setItem('registeredUsers', JSON.stringify(arr)); }
+function getUsers(){ return JSON.parse(localStorage.getItem('registeredUsers') || '[]'); }
+
+// Elements
+const welcomePane = document.getElementById('welcomePane');
+const registerForm = document.getElementById('registerForm');
+const loginForm = document.getElementById('loginForm');
+const forgotForm = document.getElementById('forgotForm');
+const loginError = document.getElementById('loginError');
+const registerError = document.getElementById('registerError');
+const forgotError = document.getElementById('forgotError');
+
+function showOverlayMsg(msg){ document.getElementById('overlayMsgText').innerText=msg; document.getElementById('overlayMsg').style.display='flex'; }
+function hideOverlayMsg(){ document.getElementById('overlayMsg').style.display='none'; }
+
+// Form toggles
+document.getElementById('goLogin').onclick = ()=>{
+  loginForm.style.display='flex'; registerForm.style.display='none'; forgotForm.style.display='none';
+  welcomePane.querySelector('.welcome-title').innerText='WELCOME';
+  welcomePane.querySelector('.welcome-desc').innerText='Sign in to continue. Secure. Fast. Simple.';
+  registerError.style.display='none';
+};
+document.getElementById('goRegister').onclick = ()=>{
+  loginForm.style.display='none'; registerForm.style.display='flex'; forgotForm.style.display='none';
+  welcomePane.querySelector('.welcome-title').innerText='REGISTER';
+  welcomePane.querySelector('.welcome-desc').innerText='Create an account to continue. Safe. Quick. Easy.';
+  loginError.style.display='none';
+};
+document.getElementById('forgotPasswordLink').onclick = ()=>{
+  loginForm.style.display='none'; registerForm.style.display='none'; forgotForm.style.display='flex';
+  welcomePane.querySelector('.welcome-title').innerText='RESET PASSWORD';
+  welcomePane.querySelector('.welcome-desc').innerText='Enter email & new password to reset.';
+  loginError.style.display='none'; forgotError.style.display='none';
+};
+document.getElementById('backToLogin').onclick = ()=>{
+  loginForm.style.display='flex'; registerForm.style.display='none'; forgotForm.style.display='none';
+  welcomePane.querySelector('.welcome-title').innerText='WELCOME';
+  welcomePane.querySelector('.welcome-desc').innerText='Sign in to continue. Secure. Fast. Simple.';
+  forgotError.style.display='none';
+};
+
+// Registration
+registerForm.onsubmit = function(e){
+  e.preventDefault();
+  const name = document.getElementById('reg_name').value.trim();
+  const email = document.getElementById('reg_username').value.trim().toLowerCase();
+  const pwd = document.getElementById('reg_password').value;
+  if(!name || !email || !pwd){ registerError.innerText='All fields are required.'; registerError.style.display='block'; return; }
+  let users = getUsers();
+  if(users.find(u=>u.email===email)){ registerError.innerText='Email already exists!'; registerError.style.display='block'; return; }
+  users.push({name,email,pwd}); setUsers(users);
+  registerError.style.display='none';
+  showOverlayMsg('Registration successful! Redirecting to login...');
+  setTimeout(()=>{
+    hideOverlayMsg();
+    loginForm.style.display='flex'; registerForm.style.display='none';
+    welcomePane.querySelector('.welcome-title').innerText='WELCOME';
+    welcomePane.querySelector('.welcome-desc').innerText='Sign in to continue. Secure. Fast. Simple.';
+  },1000);
+};
+
+// Login
+loginForm.onsubmit = function(e){
+  e.preventDefault();
+  const email = document.getElementById('login_username').value.trim().toLowerCase();
+  const pwd = document.getElementById('login_password').value;
+  const user = getUsers().find(u=>u.email===email);
+  if(!user){ loginError.innerText='Please register first!'; loginError.style.display='block'; return; }
+  if(user.pwd===pwd){ loginError.style.display='none'; showOverlayMsg('Login successful! Redirecting...'); 
+    setTimeout(()=>{ hideOverlayMsg(); window.location.href='Newcat.html'; },1000);
+  } else { loginError.innerText='Invalid credentials!'; loginError.style.display='block'; }
+};
+
+// Forgot/Reset Password
+forgotForm.onsubmit = function(e){
+  e.preventDefault();
+  const email = document.getElementById('forgot_email').value.trim().toLowerCase();
+  const newPwd = document.getElementById('forgot_newpwd').value;
+  let users = getUsers();
+  let userIndex = users.findIndex(u=>u.email===email);
+  if(userIndex===-1){ forgotError.innerText='Email not registered!'; forgotError.style.display='block'; return; }
+  if(!newPwd){ forgotError.innerText='Enter a new password.'; forgotError.style.display='block'; return; }
+  users[userIndex].pwd = newPwd;
+  setUsers(users);
+  forgotError.style.display='none';
+  showOverlayMsg('Password reset successful! Redirecting to login...');
+  setTimeout(()=>{
+    hideOverlayMsg();
+    loginForm.style.display='flex'; forgotForm.style.display='none';
+    welcomePane.querySelector('.welcome-title').innerText='WELCOME';
+    welcomePane.querySelector('.welcome-desc').innerText='Sign in to continue. Secure. Fast. Simple.';
+  },1000);
+};
+</script>
+</body>
+</html>
